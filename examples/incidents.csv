@@ -1,0 +1,5 @@
+id,title,date,severity,service,description
+OPS-1412,Status page certificate expired,2025-08-19,SEV4,status-page,"The certificate for status.example.com expired because renewal was manual and the reminder was missed."
+OPS-1577,Cache config push evicted all sessions,2025-09-30,SEV2,session-cache,"A configuration push changed the eviction setting on every cache node at once with no validation or staged rollout, logging all users out."
+OPS-1603,Reporting database out of connections,2025-12-17,SEV3,reporting,"Dashboards failed to load. A long-running query exhausted the database connection pool for the reporting service."
+OPS-1650,Office VPN concentrator failed over,2026-02-03,SEV4,corp-vpn,"The primary VPN concentrator lost power and the standby took four minutes to take over."
