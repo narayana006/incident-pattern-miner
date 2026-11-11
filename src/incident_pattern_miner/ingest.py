@@ -123,7 +123,7 @@ def parse_csv(text: str, source: str = "") -> tuple[list[Incident], list[str]]:
     """Parse a CSV export. Returns the incidents and a list of skipped-row notes.
 
     Needs a title (`title`, `summary` or `name`) and a date (`date`,
-    `created`, `created_at`, `started_at` or `opened`). Optional: `id`/`key`,
+    `created`, `created_at`, `started_at` or `opened`). Optional: `id`/`key`/`issue_key`,
     `severity`/`priority`, `service`/`services`, and free text in
     `description`, `root_cause` or `details`.
     """
@@ -138,7 +138,7 @@ def parse_csv(text: str, source: str = "") -> tuple[list[Incident], list[str]]:
             continue
         body = " ".join(row.get(name, "") for name in ("description", "root_cause", "details"))
         incidents.append(Incident(
-            id=_pick(row, "id", "key", "incident_id") or f"{Path(source).stem}:{number}",
+            id=_pick(row, "id", "key", "issue_key", "incident_id") or f"{Path(source).stem}:{number}",
             title=title, date=when, text=f"{title} {body}".strip(),
             severity=_pick(row, "severity", "priority").upper(),
             services=_split_list(_pick(row, "services", "service", "component")), source=source))

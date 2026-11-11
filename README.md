@@ -106,7 +106,7 @@ Exit status is 0 on success, 1 when no incidents match, 2 on a bad path. Files t
 
 **Markdown postmortems.** One incident per file. The title is the front-matter `title` or the first `#` heading (a leading "Postmortem:" is dropped). The date comes from front matter, from a `Date:` / `**Date:**` line near the top, or from a file name such as `2026-01-27-cdn-cert.md`. `Severity` and `Services` are read the same way when present. For clustering, the tool reads the title plus the sections that describe the failure (summary, what happened, impact, root cause, trigger, contributing factors); the timeline and action items are ignored because every incident's look alike. A file with none of those headings is read whole.
 
-**CSV.** A header row with a title column (`title`, `summary` or `name`) and a date column (`date`, `created`, `created_at`, `started_at` or `opened`). Optional: `id`/`key`, `severity`/`priority`, `service`/`services`/`component`, and free text in `description`, `root_cause` or `details`. This matches a default Jira issue export closely enough to use directly.
+**CSV.** A header row with a title column (`title`, `summary` or `name`) and a date column (`date`, `created`, `created_at`, `started_at` or `opened`). Optional: `id`/`key`/`issue_key`, `severity`/`priority`, `service`/`services`/`component`, and free text in `description`, `root_cause` or `details`. Dates must contain a `YYYY-MM-DD` (or `YYYY/MM/DD`) date; rows without one are skipped and reported.
 
 ## How it works
 
@@ -142,7 +142,7 @@ Both are optional and off by default; nothing leaves your machine unless you add
 - An incident belongs to exactly one theme. An incident that is both "config push" and "DNS" lands in whichever it resembles more.
 - `--since` and `--until` filter before clustering, so a theme with one incident inside the range and four before it shows up as a one-off. Analyse the longer period if you want history to count.
 - The trend labels are simple half-versus-half comparisons on small numbers. Treat them as a prompt to look, not as statistics.
-- Clustering compares every pair of incidents and is comfortable up to a few thousand; it is not built for more.
+- Clustering compares every pair of incidents and its cost grows with the cube of the count: about a second for 400 incidents on a laptop, and impractical beyond a couple of thousand.
 
 ## Development
 
